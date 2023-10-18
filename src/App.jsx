@@ -16,12 +16,19 @@ const App = () => {
   const [notiMessage, setNotiMessage] = useState('')
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
-  }, [blogs.entries])
+    if (user !== null) {
+      fetchBlogs()
+    }
+  }, [user])
 
-  console.log('blogs:', blogs)
+  const fetchBlogs = () => {
+    blogService
+      .getAll()
+      .then(fetchedBlogs =>
+        setBlogs(fetchedBlogs)
+      )
+  }
+
   const blogFormRef = useRef()
 
   useEffect(() => {
@@ -67,6 +74,7 @@ const App = () => {
   const addNewBlog = async (blogObject) => {
     const createdBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(createdBlog))
+    fetchBlogs() ///FETCHING
 
     blogFormRef.current.toggleVisibility()
     setNotiColor("green")
@@ -81,6 +89,7 @@ const App = () => {
   const incrementLikes = async (blog) => {
     const updatedBlog = await blogService.update(blog.id, { ...blog, likes: blog.likes + 1 })
     setBlogs(blogs.map(b => b.id !== blog.id ? b : updatedBlog))
+    fetchBlogs() ///FETCHING
   }
 
   if (user === null) {
