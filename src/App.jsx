@@ -85,6 +85,19 @@ const App = () => {
       setNotiMessage(``)
     }, 5000);
   }
+  const handleDeleteBlog = async (id) => {
+    const blogToDelete = blogs.find(b => b.id === id)
+    await blogService
+      .deleteBlog(id)
+    setBlogs(blogs.filter(b => b.id !== id))
+    setNotiColor("green")
+    setNotiMessage(
+      `${blogToDelete.title} by ${blogToDelete.author} successfully deleted!`
+    )
+    setTimeout(() => {
+      setNotiMessage(``)
+    }, 5000);
+  }
 
   const incrementLikes = async (blog) => {
     const updatedBlog = await blogService.update(blog.id, { ...blog, likes: blog.likes + 1 })
@@ -133,7 +146,7 @@ const App = () => {
         <h2>blogs</h2>
         {
           blogs.sort(compareBlogLikes).map(blog =>
-            <Blog key={blog.id} blog={blog} handleLikePost={() => incrementLikes(blog)} />
+            <Blog key={blog.id} blog={blog} handleLikePost={() => incrementLikes(blog)} handleDeleteBlog={() => handleDeleteBlog(blog.id)} />
           )
         }
       </div >

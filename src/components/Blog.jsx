@@ -1,6 +1,6 @@
 import { useState } from "react"
 //5.8 find out why user is displayed after the page is refreshed but not initally
-const Blog = ({ blog, handleLikePost }) => {
+const Blog = ({ blog, handleLikePost, handleDeleteBlog }) => {
   const [infoVisible, setInfoVisible] = useState(false)
 
   const blogStyle = {
@@ -20,8 +20,9 @@ const Blog = ({ blog, handleLikePost }) => {
         </p>
         <p>{blog.url}</p>
         <p>
-        {blog.user?blog.user.name: <i>No user</i>}
+          {blog.user ? blog.user.name : <i>No user</i>}
         </p>
+        <button onClick={() => handleDeleteBlog()}>Delete</button>
         <button onClick={() => setInfoVisible(false)}>hide</button>
       </div>
     )
