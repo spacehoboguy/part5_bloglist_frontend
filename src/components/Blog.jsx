@@ -1,5 +1,6 @@
 import { useState } from "react"
-//5.8 find out why user is displayed after the page is refreshed but not initally
+import PropTypes from 'prop-types'
+
 const Blog = ({ blog, handleLikePost, handleDeleteBlog, user }) => {
   const [infoVisible, setInfoVisible] = useState(false)
 
@@ -36,7 +37,13 @@ const Blog = ({ blog, handleLikePost, handleDeleteBlog, user }) => {
       </div>
     )
   }
+}
 
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  handleDeleteBlog: PropTypes.func.isRequired,
+  handleLikePost: PropTypes.func.isRequired
 }
 
 export default Blog
