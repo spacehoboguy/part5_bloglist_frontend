@@ -58,11 +58,11 @@ const App = () => {
       setPassword('')
       console.log(exception)
       setNotiMessage(exception.response.data.error)
-      setNotiColor("red")
+      setNotiColor('red')
       setTimeout(() => {
         setNotiMessage('')
 
-      }, 5000);
+      }, 5000)
     }
   }
 
@@ -77,13 +77,13 @@ const App = () => {
     fetchBlogs() ///FETCHING
 
     blogFormRef.current.toggleVisibility()
-    setNotiColor("green")
+    setNotiColor('green')
     setNotiMessage(
       `${blogObject.title} created!`
     )
     setTimeout(() => {
-      setNotiMessage(``)
-    }, 5000);
+      setNotiMessage('')
+    }, 5000)
   }
   const handleDeleteBlog = async (id) => {
     const blogToDelete = blogs.find(b => b.id === id)
@@ -91,13 +91,13 @@ const App = () => {
       await blogService
         .deleteBlog(id)
       setBlogs(blogs.filter(b => b.id !== id))
-      setNotiColor("green")
+      setNotiColor('green')
       setNotiMessage(
         `${blogToDelete.title} by ${blogToDelete.author} successfully deleted!`
       )
       setTimeout(() => {
-        setNotiMessage(``)
-      }, 5000);
+        setNotiMessage('')
+      }, 5000)
     } else return
   }
 
@@ -148,7 +148,13 @@ const App = () => {
         <h2>blogs</h2>
         {
           blogs.sort(compareBlogLikes).map(blog =>
-            <Blog key={blog.id} blog={blog} handleLikePost={() => incrementLikes(blog)} handleDeleteBlog={() => handleDeleteBlog(blog.id)} user={user} />
+            <Blog
+              key={blog.id}
+              blog={blog}
+              handleLikePost={() => incrementLikes(blog)}
+              handleDeleteBlog={() => handleDeleteBlog(blog.id)}
+              user={user}
+            />
           )
         }
       </div >
