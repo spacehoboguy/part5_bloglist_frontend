@@ -87,16 +87,18 @@ const App = () => {
   }
   const handleDeleteBlog = async (id) => {
     const blogToDelete = blogs.find(b => b.id === id)
-    await blogService
-      .deleteBlog(id)
-    setBlogs(blogs.filter(b => b.id !== id))
-    setNotiColor("green")
-    setNotiMessage(
-      `${blogToDelete.title} by ${blogToDelete.author} successfully deleted!`
-    )
-    setTimeout(() => {
-      setNotiMessage(``)
-    }, 5000);
+    if (window.confirm(`Remove ${blogToDelete.title} by ${blogToDelete.author}`)) {
+      await blogService
+        .deleteBlog(id)
+      setBlogs(blogs.filter(b => b.id !== id))
+      setNotiColor("green")
+      setNotiMessage(
+        `${blogToDelete.title} by ${blogToDelete.author} successfully deleted!`
+      )
+      setTimeout(() => {
+        setNotiMessage(``)
+      }, 5000);
+    } else return
   }
 
   const incrementLikes = async (blog) => {
@@ -146,7 +148,7 @@ const App = () => {
         <h2>blogs</h2>
         {
           blogs.sort(compareBlogLikes).map(blog =>
-            <Blog key={blog.id} blog={blog} handleLikePost={() => incrementLikes(blog)} handleDeleteBlog={() => handleDeleteBlog(blog.id)} />
+            <Blog key={blog.id} blog={blog} handleLikePost={() => incrementLikes(blog)} handleDeleteBlog={() => handleDeleteBlog(blog.id)} user={user} />
           )
         }
       </div >
