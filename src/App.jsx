@@ -92,6 +92,10 @@ const App = () => {
     fetchBlogs() ///FETCHING
   }
 
+  const compareBlogLikes = (a, b) => {
+    return b.likes - a.likes
+  }
+
   if (user === null) {
     return (
       <div>
@@ -128,7 +132,7 @@ const App = () => {
         </Togglable>
         <h2>blogs</h2>
         {
-          blogs.map(blog =>
+          blogs.sort(compareBlogLikes).map(blog =>
             <Blog key={blog.id} blog={blog} handleLikePost={() => incrementLikes(blog)} />
           )
         }
