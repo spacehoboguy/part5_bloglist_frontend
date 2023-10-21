@@ -1,6 +1,6 @@
 import React from 'react'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { screen, render } from '@testing-library/react'
 import Blog from '../components/Blog'
 import userEvent from '@testing-library/user-event'
 
@@ -39,6 +39,7 @@ describe('<Blog/>', () => {
             name: "admin user",
             id: "651e97b04a9dfdcb745aa87a"
         }
+
         const { container } = render(<Blog blog={blog} user={blogUser} />)
         const user = userEvent.setup()
         const showButton = screen.getByText('view')
@@ -55,7 +56,35 @@ describe('<Blog/>', () => {
         )
     })
 
-    test('', () => {
+    test('if like is pressed twice, event handler is called twice', async () => {
+        const blog = {
+            title: 'title is showing',
+            author: 'blog author is showing',
+            url: 'blog url is shown',
+            likes: 3,
+            user: {
+                username: 'admin'
+            }
+        }
+        const blogUser = {
+            username: "admin",
+            name: "admin user",
+            id: "651e97b04a9dfdcb745aa87a"
+        }
 
+        const likeBlog = jest.fn()
+        const user = userEvent.setup()
+        
+        render(<Blog blog={blog} user={blogUser} handleLikePost={likeBlog} />)
+        
+        const showButton = screen.getByText('view')
+        
+        await user.click(showButton)
+
+        const likeButton = screen.getByText('like')
+        await user.click(likeButton)
+        await user.click(likeButton)
+
+        expect(likeBlog.mock.calls).toHaveLength(2)
     })
 })
