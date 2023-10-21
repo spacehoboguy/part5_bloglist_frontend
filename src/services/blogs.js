@@ -13,10 +13,7 @@ const getAll = () => {
 }
 
 const update = (id, newBlog) => {
-  const config = {
-    headers: { Authorization: token }
-  }
-  const request = axios.put(`${baseUrl}/${id}`, newBlog, config)
+  const request = axios.put(`${baseUrl}/${id}`, newBlog)
   return request.then(res => res.data)
 }
 
