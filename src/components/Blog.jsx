@@ -16,8 +16,8 @@ const Blog = ({ blog, handleLikePost, handleDeleteBlog, user }) => {
       <div style={blogStyle} className='blogContent'>
         <p>{blog.title}</p>
         <p><i>{blog.author}</i></p>
-        <p>Likes:
-          <button onClick={handleLikePost}>{blog.likes}</button>
+        <p>Likes:{blog.likes}
+          <button onClick={handleLikePost}>like</button>
         </p>
         <p>{blog.url}</p>
         <p>
