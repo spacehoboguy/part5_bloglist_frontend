@@ -13,7 +13,7 @@ const Blog = ({ blog, handleLikePost, handleDeleteBlog, user }) => {
   }
   if (infoVisible === true) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className='blogContent'>
         <p>{blog.title}</p>
         <p><i>{blog.author}</i></p>
         <p>Likes:
@@ -30,7 +30,7 @@ const Blog = ({ blog, handleLikePost, handleDeleteBlog, user }) => {
     )
   } else if (infoVisible === false) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className='blogContent'>
         <p>{blog.title}</p>
         <p><i>{blog.author}</i></p>
         <button onClick={() => setInfoVisible(true)}>view</button>
