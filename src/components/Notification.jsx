@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 const Notification = ({ notiColor, message }) => {
   return (
-    <div
+    <div className='error'
       style={{ color: `${notiColor}`, textTransform: 'uppercase', fontWeight: 'bold', padding: 5, }}
     >
       {message}
