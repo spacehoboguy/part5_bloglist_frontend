@@ -5,3 +5,4 @@ public
 .eslintrc.cjs
 **/*.test.js
 **/*.cy.js
+cypress
