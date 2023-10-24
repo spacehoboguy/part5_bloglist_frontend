@@ -2,12 +2,18 @@ describe('Blog App', function () {
 
   beforeEach(function () {
     cy.request('POST', `${Cypress.env('BACKEND')}/testing/reset`)
-    const user = {
+    const user1 = {
       username: 'spacepirate',
       name: 'Mark Watney',
       password: 'ihateabba'
     }
-    cy.request('POST', `${Cypress.env('BACKEND')}/users`, user)
+    const user2 = {
+      username: 'admin',
+      name: 'Administrator',
+      password: 'admin'
+    }
+    cy.request('POST', `${Cypress.env('BACKEND')}/users`, user1)
+    cy.request('POST', `${Cypress.env('BACKEND')}/users`, user2)
     cy.visit('')
   })
 
@@ -54,12 +60,48 @@ describe('Blog App', function () {
         .should('have.css', 'color', 'rgb(0, 128, 0)')
     })
 
-     describe('and several blogs exist', function () {
-       beforeEach(function () {
-         cy.createBlog({title:'blog one', author:''})
-       })
-     })
+    describe('and several blogs exist', function () {
+      beforeEach(function () {
+        cy.createBlog({ title: 'blog one', author: 'blog one author', url: 'blog one url' })
+        cy.createBlog({ title: 'blog two', author: 'blog two author', url: 'blog two url' })
+        cy.createBlog({ title: 'blog three', author: 'blog three author', url: 'blog three url' })
+      })
 
+      it('can like a blog', function () {
+        cy.contains('blog one')
+          .parent()
+          .contains('view')
+          .click()
+
+        cy.contains(0)
+        cy.contains('like').click()
+        cy.contains(1)
+      })
+
+      it('can delete a blog if creator is logged in', function () {
+        cy.contains('blog two')
+          .parent()
+          .contains('view')
+          .click()
+
+        cy.contains('Delete').click()
+        cy.contains('blog two by blog two author successfully deleted!')
+      })
+
+      it('cannot delete blog of different user', function () {
+        cy.contains('log out').click()
+        cy.login({ username: 'admin', password: 'admin' })
+
+        cy.contains('blog two')
+          .parent()
+          .contains('view')
+          .click()
+
+        cy.contains('Delete').should('not.exist')
+      })
+
+    })
+    //missing test for order of blogs by likes
 
   })
 })
