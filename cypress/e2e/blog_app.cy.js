@@ -100,8 +100,23 @@ describe('Blog App', function () {
         cy.contains('Delete').should('not.exist')
       })
 
-    })
-    //missing test for order of blogs by likes
+      it('and blogs are ordered in a decending order', function () {
+        cy.contains('blog one').parent().contains('view').click()
+        cy.contains('blog one').parent().contains('like').click()
 
+        cy.contains('blog two').parent().contains('view').click()
+        cy.contains('blog two').parent().contains('like').click()
+        cy.contains('blog two').parent().contains('like').click()
+
+        cy.contains('blog three').parent().contains('view').click()
+        cy.contains('blog three').parent().contains('like').click()
+        cy.contains('blog three').parent().contains('like').click()
+        cy.contains('blog three').parent().contains('like').click()
+
+        cy.get('.blogContent').eq(0).should('contain', 'blog three')
+        cy.get('.blogContent').eq(1).should('contain', 'blog two')
+        cy.get('.blogContent').eq(2).should('contain', 'blog one')
+      })
+    })
   })
 })
